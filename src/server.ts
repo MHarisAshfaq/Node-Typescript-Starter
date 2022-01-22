@@ -3,12 +3,17 @@ import app from './app';
 import config from './config/config';
 import logger from './config/logger';
 
-let server;
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(async () => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
+mongoose
+  .connect(config.mongoose.url, config.mongoose.options)
+  .then(() => {
+    logger.info('Connected to MongoDB');
+  })
+  .catch((err) => {
+    logger.error(`MongoDB connection error. Please make sure MongoDB is running. ${err}`);
   });
+
+const server = app.listen(config.port, () => {
+  logger.info(`Listening to port ${config.port}`);
 });
 
 const exitHandler = () => {
@@ -22,7 +27,7 @@ const exitHandler = () => {
   }
 };
 
-const unexpectedErrorHandler = (error) => {
+const unexpectedErrorHandler = (error: Error) => {
   logger.error(error);
   exitHandler();
 };

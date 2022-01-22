@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import xss from 'xss-clean';
 import mongoSanitize from 'express-mongo-sanitize';
@@ -9,7 +9,7 @@ import httpStatus from 'http-status';
 import config from './config/config';
 import { successHandler, errorHandler } from './config/morgan';
 import { jwtStrategy } from './config/passport';
-import { authLimiter } from './middlewares/rateLimiter.middleware';
+import authLimiter from './middlewares/rateLimiter.middleware';
 import router from './routes/v1/index.route';
 import { errorConverter, errorHandlers } from './middlewares/error.middleware';
 import ApiError from './utils/ApiError';
@@ -53,7 +53,7 @@ if (config.env === 'production') {
 app.use('/v1', router);
 
 // send back a 404 error for any unknown api request
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
 

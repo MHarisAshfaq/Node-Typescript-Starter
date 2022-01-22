@@ -3,5 +3,7 @@ const allRoles = {
   admin: ['getUsers', 'manageUsers', 'getPosts', 'managePosts', 'getComments', 'manageComments'],
 };
 
-export const roles = Object.keys(allRoles);
-export const roleRights = new Map(Object.entries(allRoles));
+const roles = Object.keys(allRoles);
+const roleRights = new Map(Object.entries(allRoles));
+
+export { roles, roleRights };

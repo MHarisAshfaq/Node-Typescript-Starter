@@ -3,9 +3,9 @@ import validator from 'validator';
 import { toJSON, paginate } from './plugins/index.plugin';
 import bcrypt from 'bcryptjs';
 import { roles } from '../config/roles';
-import { UserInterface, UserModel } from './interfaces/user.interface';
+import { UserDocument, UserModel } from '../interfaces/user.interface';
 
-const userSchema = new mongoose.Schema<UserInterface, UserModel>(
+const userSchema = new mongoose.Schema<UserDocument, UserModel>(
   {
     name: {
       type: String,
@@ -87,5 +87,5 @@ userSchema.pre('save', async function (next) {
 /**
  * @typedef User
  */
-export const User = mongoose.model<UserInterface, UserModel>('User', userSchema);
+export const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
 // export default User;

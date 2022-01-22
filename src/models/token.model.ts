@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { toJSON, paginate } from './plugins/index.plugin';
 import tokenTypes from '../config/tokens';
-import { TokenInterface } from './interfaces/token.interface';
+import { TokenInterface } from '../interfaces/token.interface';
 
 const tokenSchema = new mongoose.Schema<TokenInterface>(
   {
