@@ -1,6 +1,12 @@
 # Dependencies
 node_modules
 
+# Ignore built ts files
+dist/**/*
+
+# ignore yarn.lock
+yarn.lock
+
 # yarn error logs
 yarn-error.log
 
