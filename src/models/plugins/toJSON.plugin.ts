@@ -6,6 +6,7 @@
  *  - replaces _id with id
  */
 
+// @ts-ignore
 const deleteAtPath = (obj, path, index) => {
   if (index === path.length - 1) {
     delete obj[path[index]];
@@ -13,14 +14,16 @@ const deleteAtPath = (obj, path, index) => {
   }
   deleteAtPath(obj[path[index]], path, index + 1);
 };
-
+// @ts-ignore
 export const toJSON = (schema) => {
+  // @ts-ignore
   let transform;
   if (schema.options.toJSON && schema.options.toJSON.transform) {
     transform = schema.options.toJSON.transform;
   }
 
   schema.options.toJSON = Object.assign(schema.options.toJSON || {}, {
+    // @ts-ignore
     transform(doc, ret, options) {
       Object.keys(schema.paths).forEach((path) => {
         if (schema.paths[path].options && schema.paths[path].options.private) {
@@ -33,7 +36,9 @@ export const toJSON = (schema) => {
       delete ret.__v;
       delete ret.createdAt;
       delete ret.updatedAt;
+      // @ts-ignore
       if (transform) {
+        // @ts-ignore
         return transform(doc, ret, options);
       }
     },

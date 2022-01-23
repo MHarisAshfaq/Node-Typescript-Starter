@@ -1,6 +1,6 @@
 import config from '../config/config';
 
-const swaggerDef = {
+const swaggerDef: any = {
   openapi: '3.0.0',
   info: {
     title: 'Community API documentation',

@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+// @ts-ignore
 
 export const paginate = (schema) => {
   /**
@@ -19,14 +20,18 @@ export const paginate = (schema) => {
    * @param {number} [options.page] - Current page (default = 1)
    * @returns {Promise<QueryResult>}
    */
+  // @ts-ignore
   schema.statics.paginate = async function (filter, options) {
     let sort = '';
     if (options.sortBy) {
+      // @ts-ignore
       const sortingCriteria = [];
+      // @ts-ignore
       options.sortBy.split(',').forEach((sortOption) => {
         const [key, order] = sortOption.split(':');
         sortingCriteria.push((order === 'desc' ? '-' : '') + key);
       });
+      // @ts-ignore
       sort = sortingCriteria.join(' ');
     } else {
       sort = 'createdAt';
@@ -40,11 +45,13 @@ export const paginate = (schema) => {
     let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
 
     if (options.populate) {
+      // @ts-ignore
       options.populate.split(',').forEach((populateOption) => {
         docsPromise = docsPromise.populate(
           populateOption
             .split('.')
             .reverse()
+            // @ts-ignore
             .reduce((a, b) => ({ path: b, populate: a }))
         );
       });

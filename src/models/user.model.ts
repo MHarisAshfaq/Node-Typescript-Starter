@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema<UserDocument, UserModel>(
       unique: true,
       trim: true,
       lowercase: true,
-      validate(value) {
+      validate(value: string) {
         if (!validator.isEmail(value)) {
           throw new Error('Invalid email');
         }
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema<UserDocument, UserModel>(
       required: true,
       trim: true,
       minlength: 8,
-      validate(value) {
+      validate(value: string) {
         if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
           throw new Error('Password must contain at least one letter and one number');
         }

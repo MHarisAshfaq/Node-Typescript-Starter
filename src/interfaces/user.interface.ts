@@ -1,7 +1,7 @@
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 
 interface UserDocument {
-  id?: string;
+  id?: ObjectId;
   name: string;
   email: string;
   password: string;
@@ -9,7 +9,7 @@ interface UserDocument {
 }
 
 interface UserModel extends Model<UserDocument> {
-  isEmailTaken(email: string, excludeUserId?: string): boolean;
+  isEmailTaken(email: string, excludeUserId?: ObjectId): boolean;
   toJSON(schema: any): void;
   paginate(filter: any, options: any): any;
 }

@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongoose';
 
-interface TokenInterface {
+interface TokenDocument {
   token: string;
   user: ObjectId;
   type: string;
@@ -8,4 +8,4 @@ interface TokenInterface {
   blacklisted: boolean;
 }
 
-export { TokenInterface };
+export { TokenDocument };

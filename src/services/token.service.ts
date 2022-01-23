@@ -1,20 +1,22 @@
 import jwt from 'jsonwebtoken';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import config from '../config/config';
 import httpStatus from 'http-status';
 import { userService } from './index.service';
 import { Token } from '../models/index.model';
 import ApiError from '../utils/ApiError';
 import tokenTypes from '../config/tokens';
-/**
- * Generate token
- * @param {ObjectId} userId
- * @param {Moment} expires
- * @param {string} type
- * @param {string} [secret]
- * @returns {string}
- */
-export const generateToken = (userId, expires, type, secret = config.jwt.secret) => {
+import { ObjectId } from 'mongoose';
+import { TokenDocument } from '../interfaces/token.interface';
+import { UserDocument } from '../interfaces/user.interface';
+
+// Generate token
+export const generateToken = (
+  userId: ObjectId,
+  expires: Moment,
+  type: string,
+  secret: string = config.jwt.secret
+): string => {
   const payload = {
     sub: userId,
     iat: moment().unix(),
@@ -24,16 +26,14 @@ export const generateToken = (userId, expires, type, secret = config.jwt.secret)
   return jwt.sign(payload, secret);
 };
 
-/**
- * Save a token
- * @param {string} token
- * @param {ObjectId} userId
- * @param {Moment} expires
- * @param {string} type
- * @param {boolean} [blacklisted]
- * @returns {Promise<Token>}
- */
-export const saveToken = async (token, userId, expires, type, blacklisted = false) => {
+// Save a token
+export const saveToken = async (
+  token: string,
+  userId: ObjectId,
+  expires: Moment,
+  type: string,
+  blacklisted: boolean = false
+): Promise<TokenDocument> => {
   const tokenDoc = await Token.create({
     token,
     user: userId,
@@ -44,28 +44,18 @@ export const saveToken = async (token, userId, expires, type, blacklisted = fals
   return tokenDoc;
 };
 
-/**
- * Verify token and return token doc (or throw an error if it is not valid)
- * @param {string} token
- * @param {string} type
- * @returns {Promise<Token>}
- */
-export const verifyToken = async (token, type) => {
+// Verify token and return token doc (or throw an error if it is not valid)
+export const verifyToken = async (token: string, type: string): Promise<TokenDocument> => {
   const payload = jwt.verify(token, config.jwt.secret);
-  // @ts-ignore
-  const tokenDoc = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
+  const tokenDoc = await Token.findOne({ token, type, user: payload.sub as any, blacklisted: false });
   if (!tokenDoc) {
     throw new Error('Token not found');
   }
   return tokenDoc;
 };
 
-/**
- * Generate auth tokens
- * @param {User} user
- * @returns {Promise<Object>}
- */
-export const generateAuthTokens = async (user) => {
+// Generate auth tokens
+export const generateAuthTokens = async (user: UserDocument): Promise<object> => {
   const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
   const accessToken = generateToken(user.id, accessTokenExpires, tokenTypes.ACCESS);
 
@@ -85,12 +75,8 @@ export const generateAuthTokens = async (user) => {
   };
 };
 
-/**
- * Generate reset password token
- * @param {string} email
- * @returns {Promise<string>}
- */
-export const generateResetPasswordToken = async (email) => {
+// Generate reset password token
+export const generateResetPasswordToken = async (email: string): Promise<string> => {
   const user = await userService.getUserByEmail(email);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No users found with this email');
@@ -101,12 +87,8 @@ export const generateResetPasswordToken = async (email) => {
   return resetPasswordToken;
 };
 
-/**
- * Generate verify email token
- * @param {User} user
- * @returns {Promise<string>}
- */
-export const generateVerifyEmailToken = async (user) => {
+// Generate verify email token
+export const generateVerifyEmailToken = async (user: UserDocument): Promise<string> => {
   const expires = moment().add(config.jwt.verifyEmailExpirationMinutes, 'minutes');
   const verifyEmailToken = generateToken(user.id, expires, tokenTypes.VERIFY_EMAIL);
   await saveToken(verifyEmailToken, user.id, expires, tokenTypes.VERIFY_EMAIL);

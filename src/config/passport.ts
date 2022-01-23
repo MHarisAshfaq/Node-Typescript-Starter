@@ -1,4 +1,4 @@
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { Strategy as JwtStrategy, ExtractJwt, VerifiedCallback, VerifyCallbackWithRequest } from 'passport-jwt';
 import config from './config';
 import tokenTypes from './tokens';
 import { User } from '../models/index.model';
@@ -8,7 +8,7 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 
-const jwtVerify = async (payload, done) => {
+const jwtVerify = async (payload: { [k: string]: string }, done: any): Promise<VerifiedCallback> => {
   try {
     if (payload.type !== tokenTypes.ACCESS) {
       throw new Error('Invalid token type');

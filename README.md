@@ -1,4 +1,4 @@
-# Community RESTful APIs
+# Node RESTful APIs
 
 ## Quick Start
 
@@ -68,7 +68,7 @@ The environment variables can be found and modified in the `.env` file. They com
 PORT=3000
 
 # URL of the Mongo DB
-MONGODB_URL=mongodb://127.0.0.1:27017/community
+MONGODB_URL=mongodb://127.0.0.1:27017/node
 
 # JWT
 # JWT secret key
@@ -93,8 +93,8 @@ src\
  |--services\       # Business logic (service layer)
  |--utils\          # Utility classes and functions
  |--validations\    # Request data validation schemas
- |--app.js          # Express app
- |--index.js        # App entry point
+ |--app.ts          # Express app
+ |--index.ts        # App entry point
 ```
 
 ## API Documentation
