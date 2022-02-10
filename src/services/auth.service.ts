@@ -39,7 +39,7 @@ export const refreshAuth = async (refreshToken: string): Promise<object> => {
 };
 
 // Reset password
-export const resetPassword = async (resetPasswordToken: string, newPassword: string): Promise<any> => {
+export const resetPassword = async (resetPasswordToken: string, newPassword: string): Promise<void> => {
   try {
     const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
     const user = await userService.getUserById(resetPasswordTokenDoc.user);

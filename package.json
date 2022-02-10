@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development nodemon dist/server.js",
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "dev": "cross-env NODE_ENV=development nodemon && ts-node src/server.ts",
     "test": "jest -i --colors --verbose --detectOpenHandles",
     "test:watch": "jest -i --watchAll",

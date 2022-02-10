@@ -4,7 +4,6 @@ import httpStatus from 'http-status';
 import ApiError from '../utils/ApiError';
 import { roleRights } from '../config/roles';
 import { UserDocument } from '../interfaces/user.interface';
-import { ObjectId } from 'mongoose';
 
 const verifyCallback =
   (req: Request, resolve: any, reject: any, requiredRights: string[]) =>

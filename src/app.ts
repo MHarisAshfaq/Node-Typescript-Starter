@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction, Application } from 'express';
 import helmet from 'helmet';
 import xss from 'xss-clean';
 import mongoSanitize from 'express-mongo-sanitize';
@@ -14,7 +14,7 @@ import router from './routes/v1/index.route';
 import { errorConverter, errorHandlers } from './middlewares/error.middleware';
 import ApiError from './utils/ApiError';
 
-const app = express();
+const app: Application = express();
 if (config.env !== 'test') {
   app.use(successHandler);
   app.use(errorHandler);
