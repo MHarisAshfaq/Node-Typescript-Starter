@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 // @ts-ignore
 
-export const paginate = (schema) => {
+export const paginate = (schema: Object) => {
   /**
    * @typedef {Object} QueryResult
    * @property {Document[]} results - Results found
@@ -21,7 +21,7 @@ export const paginate = (schema) => {
    * @returns {Promise<QueryResult>}
    */
   // @ts-ignore
-  schema.statics.paginate = async function (filter, options) {
+  schema.statics.paginate = async function (filter: Object, options) {
     let sort = '';
     if (options.sortBy) {
       // @ts-ignore

@@ -44,8 +44,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response): Promise<vo
 
 const sendVerificationEmail = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const verifyEmailToken = await tokenService.generateVerifyEmailToken(req.user as UserDocument);
-  // @ts-ignore
-  await emailService.sendVerificationEmail(req.user.email, verifyEmailToken);
+  // await emailService.sendVerificationEmail(req.user.email as string, verifyEmailToken);
   res.status(httpStatus.NO_CONTENT).send();
 });
 

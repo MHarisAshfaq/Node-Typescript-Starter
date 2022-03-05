@@ -6,7 +6,7 @@ import ApiError from '../utils/ApiError';
 
 //Create a user
 export const createUser = async (userBody: { [k: string]: any }): Promise<UserDocument> => {
-  if (User.isEmailTaken(userBody.email)) {
+  if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
   return User.create(userBody);
@@ -42,12 +42,11 @@ export const updateUserById = async (userId: ObjectId, updateBody: { [k: string]
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
+  if (updateBody.email && User.isEmailTaken(updateBody.email, userId)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
-  Object.assign(user, updateBody);
-  // @ts-ignore
-  await user.save();
+  Object.assign(user as any, updateBody as any);
+  await (user as any).save();
   return user;
 };
 
@@ -57,7 +56,6 @@ export const deleteUserById = async (userId: ObjectId): Promise<UserDocument> =>
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  // @ts-ignore
-  await user.remove();
+  await (user as any).remove();
   return user;
 };
