@@ -10,7 +10,7 @@ import config from './config/config';
 import { successHandler, errorHandler } from './config/morgan';
 import { jwtStrategy } from './config/passport';
 import authLimiter from './middlewares/rateLimiter.middleware';
-import router from './routes/v1/index.route';
+import router from './routes/v1';
 import { errorConverter, errorHandlers } from './middlewares/error.middleware';
 import ApiError from './utils/ApiError';
 
