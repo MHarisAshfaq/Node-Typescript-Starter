@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import { toJSON, paginate } from './plugins/index.plugin';
+import { toJSON } from './plugins';
 import tokenTypes from '../config/tokens';
-import { TokenDocument } from '../interfaces/token.interface';
+import { TokenDocument } from '../interfaces';
 
-const tokenSchema = new mongoose.Schema<TokenDocument>(
+const schema = new mongoose.Schema<TokenDocument>(
   {
     token: {
       type: String,
@@ -35,10 +35,9 @@ const tokenSchema = new mongoose.Schema<TokenDocument>(
 );
 
 // add plugin that converts mongoose to json
-tokenSchema.plugin(toJSON);
+schema.plugin(toJSON);
 
 /**
  * @typedef Token
  */
-export const Token = mongoose.model<TokenDocument>('Token', tokenSchema);
-// export default Token;
+export const Token = mongoose.model<TokenDocument>('Token', schema);

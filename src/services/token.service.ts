@@ -2,13 +2,12 @@ import jwt from 'jsonwebtoken';
 import moment, { Moment } from 'moment';
 import config from '../config/config';
 import httpStatus from 'http-status';
-import { userService } from './index.service';
-import { Token } from '../models/index.model';
+import { userService } from '.';
+import { Token } from '../models';
 import ApiError from '../utils/ApiError';
 import tokenTypes from '../config/tokens';
 import { ObjectId } from 'mongoose';
-import { TokenDocument } from '../interfaces/token.interface';
-import { UserDocument } from '../interfaces/user.interface';
+import { TokenDocument, UserDocument } from '../interfaces';
 
 // Generate token
 export const generateToken = (

@@ -1,11 +1,11 @@
-import mongoose, { Model } from 'mongoose';
+import mongoose from 'mongoose';
 import validator from 'validator';
-import { toJSON, paginate } from './plugins/index.plugin';
+import { toJSON, paginate } from './plugins';
 import bcrypt from 'bcryptjs';
 import { roles } from '../config/roles';
-import { UserDocument, UserModel } from '../interfaces/user.interface';
+import { UserDocument, UserModel } from '../interfaces';
 
-const userSchema = new mongoose.Schema<UserDocument, UserModel>(
+const schema = new mongoose.Schema<UserDocument, UserModel>(
   {
     name: {
       type: String,
@@ -52,8 +52,8 @@ const userSchema = new mongoose.Schema<UserDocument, UserModel>(
 );
 
 // add plugin that converts mongoose to json
-userSchema.plugin(toJSON);
-userSchema.plugin(paginate);
+schema.plugin(toJSON);
+schema.plugin(paginate);
 
 /**
  * Check if email is taken
@@ -61,7 +61,7 @@ userSchema.plugin(paginate);
  * @param {string} excludeUserId - The id of the user to be excluded
  * @returns {Promise<boolean>}
  */
-userSchema.statics.isEmailTaken = async function (email: string, excludeUserId: string): Promise<boolean> {
+schema.statics.isEmailTaken = async function (email: string, excludeUserId: string): Promise<boolean> {
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
   return !!user;
 };
@@ -71,12 +71,12 @@ userSchema.statics.isEmailTaken = async function (email: string, excludeUserId: 
  * @param {string} password
  * @returns {Promise<boolean>}
  */
-userSchema.methods.isPasswordMatch = async function (password: string): Promise<boolean> {
+schema.methods.isPasswordMatch = async function (password: string): Promise<boolean> {
   const user: any = this;
   return bcrypt.compare(password, user.password);
 };
 
-userSchema.pre('save', async function (next) {
+schema.pre('save', async function (next) {
   const user: any = this;
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
@@ -87,5 +87,4 @@ userSchema.pre('save', async function (next) {
 /**
  * @typedef User
  */
-export const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
-// export default User;
+export const User = mongoose.model<UserDocument, UserModel>('User', schema);

@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import { ObjectId } from 'mongoose';
-import { UserDocument } from '../interfaces/user.interface';
-import { User } from '../models/index.model';
+import { UserDocument } from '../interfaces';
+import { User } from '../models';
 import ApiError from '../utils/ApiError';
 
 //Create a user

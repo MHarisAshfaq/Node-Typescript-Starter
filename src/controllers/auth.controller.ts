@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../utils/catchAsync';
-import { authService, userService, tokenService, emailService } from '../services/index.service';
-import { UserDocument } from '../interfaces/user.interface';
+import { authService, userService, tokenService, emailService } from '../services';
+import { UserDocument } from '../interfaces';
 
 const register = catchAsync(async (req: Request, res: Response): Promise<void> => {
   const user = await userService.createUser(req.body);
